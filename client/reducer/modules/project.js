@@ -156,7 +156,7 @@ export function changeMemberRole(param) {
     payload: axios.post('/api/project/change_member_role', param)
   };
 }
-// 修改项目成员是否收到邮件通知
+// 修改项目成员是否收到消息通知
 export function changeMemberEmailNotice(param) {
   return {
     type: CHANGE_MEMBER_EMAIL_NOTICE,
@@ -332,6 +332,6 @@ export async function checkProjectName(name, group_id) {
 export async function handleSwaggerUrlData(url) {
   return {
     type: GET_SWAGGER_URL_DATA,
-    payload: axios.get('/api/project/swagger_url?url='+url)
+    payload: axios.get('/api/project/swagger_url?url='+encodeURI(encodeURI(url)))
   };
 }

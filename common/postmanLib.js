@@ -104,7 +104,7 @@ async function httpRequestByNode(options) {
       method: options.method,
       url: options.url,
       headers: options.headers,
-      timeout: 5000,
+      timeout: 10000,
       maxRedirects: 0,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false
@@ -180,7 +180,7 @@ function sandboxByNode(sandbox = {}, script) {
   script = new vm.Script(script);
   const context = new vm.createContext(sandbox);
   script.runInContext(context, {
-    timeout: 3000
+    timeout: 10000
   });
   return sandbox;
 }
@@ -300,7 +300,13 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     axios: axios
   });
 
-  if (preScript) {
+  let scriptEnable = false;
+  try {
+    const yapi = require('../server/yapi');
+    scriptEnable = yapi.WEBCONFIG.scriptEnable === true;
+  } catch (err) {}
+
+  if (preScript && scriptEnable) {
     context = await sandbox(context, preScript);
     defaultOptions.url = options.url = URL.format({
       protocol: urlObj.protocol,
@@ -340,7 +346,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     });
   }
 
-  if (afterScript) {
+  if (afterScript && scriptEnable) {
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
     context.responseStatus = data.res.status;

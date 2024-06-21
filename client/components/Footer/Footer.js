@@ -99,7 +99,7 @@ Footer.defaultProps = {
       ]
     },
     {
-      title: 'Copyright © 2018 YMFE',
+      title: `Copyright © 2018-${new Date().getFullYear()} YMFE`,
       linkList: [
         {
           itemTitle: `版本: ${version} `,
@@ -107,7 +107,7 @@ Footer.defaultProps = {
         },
         {
           itemTitle: '使用文档',
-          itemLink: 'https://yapi.ymfe.org'
+          itemLink: 'https://hellosean1025.github.io/yapi/'
         }
       ]
     }
